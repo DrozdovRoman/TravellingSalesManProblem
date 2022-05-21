@@ -197,19 +197,22 @@ void MainWindow::on_calculation_clicked() // Приватный слот кли�
 
 void MainWindow::on_createTab_pressed() // Приватный слот нажатия на кнопку создания таблицы
 {
-    ui->createTab->setStyleSheet("color: rgb(30,30,30);background-color: rgb(100,100,100);font-size:20px;border-radius: 5px; border; border: 2px solid rgb(30,30,30)");
+    ui->createTab->setStyleSheet("color: rgb(30,30,30);background-color: rgb(100,100,100);font-size:20px;border-radius: 5px;
+                                 border; border: 2px solid rgb(30,30,30)");
 }
 
 
 void MainWindow::on_buildGraphs_pressed() // Приватный слот нажатия на кнопку создания ребер графа
 {
-    ui->buildGraphs->setStyleSheet("color: rgb(30,30,30);background-color: rgb(100,100,100);font-size:20px;border-radius: 5px; border; border: 2px solid rgb(30,30,30)");
+    ui->buildGraphs->setStyleSheet("color: rgb(30,30,30);background-color: rgb(100,100,100);font-size:20px;border-radius: 5px;
+                                   border; border: 2px solid rgb(30,30,30)");
 }
 
 
 void MainWindow::on_calculation_pressed() // Приватный слот нажатия на кнопку вычисления кратчайшего пути
 {
-    ui->calculation->setStyleSheet("color: rgb(30,30,30);background-color: rgb(100,100,100);font-size:20px;border-radius: 5px; border; border: 2px solid rgb(30,30,30)");
+    ui->calculation->setStyleSheet("color: rgb(30,30,30);background-color: rgb(100,100,100);font-size:20px;border-radius: 5px;
+                                   border; border: 2px solid rgb(30,30,30)");
 }
 
 void MainWindow::paintEvent(QPaintEvent *)
