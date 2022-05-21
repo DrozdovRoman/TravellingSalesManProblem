@@ -8,6 +8,7 @@ struct Node
     int x,y;
 };
 
+// Инициализация переменных
 int CountCities, increase,xCenter,yCenter,minS,len,s;
 int draw = 0;
 double deg=360;
@@ -16,7 +17,7 @@ bool *was;
 int *way, *minway;
 Node *node;
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(QWidget *parent) // конструктор с параметром
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 
@@ -29,14 +30,14 @@ MainWindow::MainWindow(QWidget *parent)
     this -> setPalette(palette);
 }
 
-MainWindow::~MainWindow()
+MainWindow::~MainWindow() // деструктор
 {
     delete ui;
 }
 
 
 
-void MainWindow::TabHide(){
+void MainWindow::TabHide(){ // Скрытие таблицы смежности
     QString temp;
     for (int i = 1; i<10; i++)
     {
@@ -68,7 +69,7 @@ void MainWindow::TabHide(){
    }
 }
 
-void MainWindow::TabShow()
+void MainWindow::TabShow() // Создание таблицы смежности
 {
     QString temp;
     for (int i = 1; i < CountCities + 1; i++){
@@ -100,20 +101,21 @@ void MainWindow::TabShow()
    }
 }
 
-void MainWindow::on_createTab_clicked()
+void MainWindow::on_createTab_clicked() // Приватный слот клика на кнопку создания таблицы
 {
+    // Изменение стиля кнопки создания таблицы смежности
     ui -> createTab -> setStyleSheet("color: rgb(255,255,255); background-color: rgb(100,100,100); font-size:20px; border-radius: 5px;");
     ui -> calculation -> hide();
     ui -> buildGraphs -> hide();
-    if (ui -> CountLabel -> text().toInt() < 3||ui -> CountLabel -> text().toInt() > 9) {
+    if (ui -> CountLabel -> text().toInt() < 3||ui -> CountLabel -> text().toInt() > 9) { // Проверка корректности введенных данных размера таблицы
         ui -> CountLabel -> setText("");
         TabHide();
         draw = 0;
         this -> repaint();
         ui -> statusBar -> setStyleSheet("color:red;");
-        statusBar() -> showMessage("The number of cities must be a number and have a value of at least 3 and at most 9!");
+        statusBar() -> showMessage("The number of cities must be a number and have a value of at least 3 and at most 9!"); // вывод ошибки в statusbar
     }
-    else {
+    else { // создание таблицы смежности
         TabHide();
         statusBar() -> clearMessage();
         ui -> buildGraphs -> show();
@@ -122,40 +124,40 @@ void MainWindow::on_createTab_clicked()
         node = new Node[CountCities];
         xCenter = 820;
         yCenter = 280;
-        draw = 1;
+        draw = 1; // Присвоение нового значение переменной, draw для изменения графического представления
         this -> repaint();
     }
 }
 
 
-void MainWindow::on_buildGraphs_clicked()
+void MainWindow::on_buildGraphs_clicked() // Приватный слот клика на кнопку создания ребер графов
 {
     ui -> buildGraphs -> setStyleSheet("color: rgb(255,255,255); background-color: rgb(100,100,100); font-size:20px; border-radius: 5px;");
     ui -> calculation->hide();
     QString searcher, buffer;
 
-    for (int i = 0;i < CountCities;i++)
+    for (int i = 0;i < CountCities;i++) // Вложенный цикл проверки путей графа
     {
         for (int e = 0;e < CountCities;e++)
         {
-            if (i == e) {
+            if (i == e) { // Присвоение элементам диагонали значение 0
                 buffer = "0";
             }
-            else {
+            else { // проверка значение элемента таблицы смежности
             searcher="p"+QString::number(i+1) + QString::number(e+1);
             buffer=this->findChild<QLineEdit*>(searcher)->text();
             }
 
-            ways[i][e] = buffer.toInt();
+            ways[i][e] = buffer.toInt(); // Присвоение элементам вложенного массива значений таблицы смежности
         }
     }
     ui -> calculation -> show();
-    draw = 2;
+    draw = 2; // Присвоение нового значение переменной, draw для изменения графического представления
     this -> repaint();
 }
 
 
-void MainWindow::on_calculation_clicked()
+void MainWindow::on_calculation_clicked() // Приватный слот клика на кнопку вычисления кратчайшего пути
 {
     ui -> calculation -> setStyleSheet("color: rgb(255,255,255); background-color: rgb(100,100,100); font-size:20px; border-radius: 5px;");
     ui -> calculation -> hide();
@@ -194,26 +196,26 @@ void MainWindow::on_calculation_clicked()
 }
 
 
-void MainWindow::on_createTab_pressed()
+void MainWindow::on_createTab_pressed() // Приватный слот нажатия на кнопку создания таблицы
 {
     ui->createTab->setStyleSheet("color: rgb(30,30,30);background-color: rgb(100,100,100);font-size:20px;border-radius: 5px; border; border: 2px solid rgb(30,30,30)");
 }
 
 
-void MainWindow::on_buildGraphs_pressed()
+void MainWindow::on_buildGraphs_pressed() // Приватный слот нажатия на кнопку создания ребер графа
 {
     ui->buildGraphs->setStyleSheet("color: rgb(30,30,30);background-color: rgb(100,100,100);font-size:20px;border-radius: 5px; border; border: 2px solid rgb(30,30,30)");
 }
 
 
-void MainWindow::on_calculation_pressed()
+void MainWindow::on_calculation_pressed() // Приватный слот нажатия на кнопку вычисления кратчайшего пути
 {
     ui->calculation->setStyleSheet("color: rgb(30,30,30);background-color: rgb(100,100,100);font-size:20px;border-radius: 5px; border; border: 2px solid rgb(30,30,30)");
 }
 
 void MainWindow::paintEvent(QPaintEvent *)
 {
-    if (draw) {
+    if (draw) { // Отрисовка элементов графа
         int indent;
         increase = 360/CountCities;
         deg = 0;
@@ -248,7 +250,7 @@ void MainWindow::paintEvent(QPaintEvent *)
                 paint.setPen(pen);
                 deg += increase;
             }
-        if (draw > 1) {
+        if (draw > 1) { // Отрисовка ребер графа
             for (int i = 0; i < CountCities; i++)
             {
                 for (int e = 0; e < CountCities; e++)
@@ -263,7 +265,7 @@ void MainWindow::paintEvent(QPaintEvent *)
                 }
             }
         }
-        if (draw == 3)
+        if (draw == 3) // Отрисовка минимального пути
         {
             pen.setStyle(Qt::DashLine);
             pen.setWidth(4);
@@ -281,7 +283,7 @@ void MainWindow::paintEvent(QPaintEvent *)
     }
 }
 
-void MainWindow::Search(int l, int i){
+void MainWindow::Search(int l, int i){ // Поиск минимального пути
     len += l;
     was[i] = 1;
     bool b = 0;
